@@ -70,6 +70,7 @@ public final class ConfigFields
     private boolean _notifyWhenFactionRemoved;
     private boolean _canUseFactionChest = true;
     private boolean _showOnlyPlayersFactionsClaimsInMap = false;
+    private boolean _showFactioEnterPhrase = true;
 
     //Worlds
     private Set<String> _claimableWorldNames = new HashSet<>();
@@ -173,6 +174,7 @@ public final class ConfigFields
             this._notifyWhenFactionRemoved = _configuration.getBoolean(true, "factions-remover", "notify-when-removed");
             this._canUseFactionChest = _configuration.getBoolean(true, "faction-chest");
             this._showOnlyPlayersFactionsClaimsInMap = _configuration.getBoolean(false, "show-only-player-faction-claims-in-map");
+            this._showFactioEnterPhrase = _configuration.getBoolean(true, "show-faction-enter-phrase");
 
             //Worlds
             this._claimableWorldNames = new HashSet<>(_configuration.getListOfStrings(new ArrayList<>(), "worlds", "CLAIMABLE"));
@@ -622,6 +624,11 @@ public final class ConfigFields
     public boolean shouldSupressOtherFactionsMessagesWhileInTeamChat()
     {
         return this._supressOtherFactionsMessagesWhileInTeamChat;
+    }
+
+    public boolean shouldShowFactionEnterPhrase()
+    {
+        return this._showFactioEnterPhrase;
     }
 
     // Dynmap Integration
