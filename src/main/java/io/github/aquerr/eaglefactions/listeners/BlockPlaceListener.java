@@ -5,11 +5,22 @@ import org.spongepowered.api.block.BlockSnapshot;
 import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.block.tileentity.Piston;
 import org.spongepowered.api.data.Transaction;
+import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.block.ChangeBlockEvent;
+import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.cause.EventContext;
+import org.spongepowered.api.event.cause.EventContextKeys;
+import org.spongepowered.api.util.Direction;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class BlockPlaceListener extends AbstractListener
 {
@@ -22,6 +33,7 @@ public class BlockPlaceListener extends AbstractListener
     public void onBlockPlace(ChangeBlockEvent.Place event)
     {
         final Object source = event.getSource();
+        final EventContext eventContext = event.getContext();
         if(source instanceof Piston)
             return;
 
@@ -37,7 +49,7 @@ public class BlockPlaceListener extends AbstractListener
 
         if(user instanceof Player)
         {
-            Player player = (Player) user;
+            final Player player = (Player) user;
             for (Transaction<BlockSnapshot> transaction : event.getTransactions())
             {
                 if(!super.getPlugin().getProtectionManager().canPlace(transaction.getFinal().getLocation().get(), player))
@@ -46,6 +58,23 @@ public class BlockPlaceListener extends AbstractListener
         }
         else if(user == null)
         {
+//            final boolean pistonExtend = event.getContext().containsKey(EventContextKeys.PISTON_EXTEND);
+//            final boolean pistonRetract = event.getContext().containsKey(EventContextKeys.PISTON_RETRACT);
+//
+//            final List<BlockSnapshot> sourceBlockSnapshots = event.getTransactions().stream().map(Transaction::getOriginal).collect(Collectors.toList());
+//            if(pistonExtend || pistonRetract)
+//            {
+//                final BlockSnapshot blockSnapshot = sourceBlockSnapshots.get(sourceBlockSnapshots.size() - 1);
+//                final Direction direction = blockSnapshot.get(Keys.DIRECTION).get();
+//                final Location<World> directionLocation = location.getBlockRelative(direction);
+//                sourceLocations.add(directionLocation);
+//
+//                if (user == null)
+//                {
+//                    user = event.getContext().get(EventContextKeys.OWNER).orElse(null);
+//                }
+//            }
+
             for (Transaction<BlockSnapshot> transaction : event.getTransactions())
             {
                 //Block fire from thunder
@@ -56,5 +85,19 @@ public class BlockPlaceListener extends AbstractListener
                 }
             }
         }
+    }
+
+    @Listener(order = Order.FIRST)
+    public void onBlockChangePost(final ChangeBlockEvent.Post event)
+    {
+        if (event instanceof ChangeBlockEvent.Modify)
+            return;
+
+        final Object source = event.getSource();
+        final Cause cause = event.getCause();
+        final List<Transaction<BlockSnapshot>> transactions = event.getTransactions();
+        final EventContext eventContext = event.getContext();
+
+        final String test = "";
     }
 }
