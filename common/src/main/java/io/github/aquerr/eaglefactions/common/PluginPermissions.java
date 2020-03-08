@@ -6,6 +6,7 @@ public final class PluginPermissions
     public static final String ENEMY_COMMAND = "eaglefactions.player.enemy";
 
     public static final String CREATE_COMMAND = "eaglefactions.player.create";
+    public static final String BUYPASS_ITEMS ="eaglefactions.player.items";
     public static final String DISBAND_COMMAND = "eaglefactions.player.disband";
     public static final String RENAME_COMMAND = "eaglefactions.player.rename";
     public static final String TAG_COMMAND = "eaglefactions.player.tag";

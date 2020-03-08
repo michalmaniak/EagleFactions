@@ -238,6 +238,14 @@ public class EagleFactionsPlugin implements EagleFactions
                 .executor(new CreateCommand(this))
                 .build());
 
+        SUBCOMMANDS.put(Arrays.asList("vip", "vipc"), CommandSpec.builder()
+                .description(Text.of("Create Faction Command without using items [Vip only]"))
+                .permission(PluginPermissions.BUYPASS_ITEMS)
+                .arguments(GenericArguments.string(Text.of("tag")),
+                        GenericArguments.string(Text.of("faction name")))
+                .executor(new CreateVCommand(this))
+                .build());
+
         //Disband faction command.
         SUBCOMMANDS.put(Collections.singletonList("disband"), CommandSpec.builder()
                 .description(Text.of("Disband Faction Command"))
